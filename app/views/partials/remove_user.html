@@ -1,0 +1,17 @@
+<div class="row">
+	<h5 class="col s7 offset-s3">Are you sure you want to permantly delete user?</h5>
+	<table class="col s6 offset-s3">
+		<tr>
+			<td>Name</td>
+			<td>{{user['first_name']}} {{user['last_name']}}</td>
+		</tr>
+		<tr>
+			<td>Email</td>
+			<td>{{user['email']}}</td>
+		</tr>
+		<tr>
+			<td><a href="/view_dash"><button class="btn blue-grey">Back</button></a></td>
+			<td><a href="/delete_user/{{user['user_id']}}"><button class="btn red">Confirm</button></a></td>
+		</tr>
+	</table>
+</div>

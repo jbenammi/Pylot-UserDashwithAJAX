@@ -1,0 +1,60 @@
+<div class="row">
+	<h3 class="col s12">{{wall_info['first_name']}} {{wall_info['last_name']}}</h3>
+	<table>
+		<tr>
+			<td class="col s2">Registered on:</td>
+			<td class="col s8">{{wall_info['created_on'].strftime('%B %d, %Y at %I:%M %p')}}</td>
+		</tr>
+		<tr>
+			<td class="col s2">User ID:</td>
+			<td class="col s8">{{wall_info['user_id']}}</td>
+		</tr>
+		<tr>
+			<td class="col s2">E-Mail Address:</td>
+			<td class="col s8">{{wall_info['email']}}</td>
+		</tr>
+		<tr>
+			<td class="col s2">Description:</td>
+			<td class="col s8">{{wall_info['description']}}</td>
+		</tr>
+	</table>
+</div>
+<div class="row">
+	<h4 class="col s12">Leave a message for {{wall_info['first_name']}}</h4>
+	<form id="message" class="col s12" action="/add_message" method="post">
+		<textarea name="message"></textarea>
+		<input type="hidden" name="wall_id" value="{{wall_info['user_id']}}" />
+		<input type="hidden" name="m_author_id" value="{{session['logged_info']['id']}}" />
+		<button class="btn blue-grey right">Post Message</button>
+	</form>
+</div>
+{% for message in messages %}
+<div class="row">
+	<h5 class="col s8">{{message['first_name']}} {{message['last_name']}} wrote:</h5>
+	<h5 class="col s4 right-align">{{message['m_created_on'].strftime('%B %d, %Y at %I:%M %p')}}</h5>
+	<div class="col s12 btm-m10 top-m10">
+	<p>{{message['message']}}</p>
+	</div>
+	{% for comment in comments %}
+	{% if message['m_id'] == comment['c_message_id'] %}
+	<div class="col s8 offset-s4">
+		<h6 class="col s6">{{comment['first_name']}} {{comment['last_name']}} wrote:</h6>
+		<h6 class="col s6 right-align">{{comment['c_created_on'].strftime('%B %d, %Y at %I:%M %p')}}</h6>
+		<div class="col s12 btm-m10 top-m10">
+		<p>{{comment['comment']}}</p>
+		</div>
+	</div>
+	{% endif %}
+	{% endfor %}
+	<div>
+		<div class="col s6 offset-s6">
+			<form class="comment" action="/add_comment/{{message['m_id']}}" method="post">
+				<textarea name="comment"></textarea>
+				<input type="hidden" name="wall_id" value="{{wall_info['user_id']}}" />
+				<input type="hidden" name="c_author_id" value="{{session['logged_info']['id']}}" />
+				<button class="btn blue-grey right">Post Comment</button>
+			</form>
+		</div>
+	</div>
+</div>
+{% endfor %}

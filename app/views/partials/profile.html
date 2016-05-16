@@ -1,0 +1,52 @@
+<div class="row">
+	<div  class="col s6">
+		<form id="user_info" action="/edit_user_info" method="post">
+			<fieldset>
+				<legend>Edit Information</legend>
+				<label>E-Mail</label>
+				<input type="text" name="email" value="{{user['email']}}" />
+				<label>First Name</label>
+				<input type="text" name="fname" value="{{user['first_name']}}"/>
+				<label>Last Name</label>
+				<input type="text" name="lname" value="{{user['last_name']}}"/>
+				<input type="hidden" name="id" value="{{user['user_id']}}" />
+				<button class="btn right blue-grey">Save</button>
+			</fieldset>
+		</form>
+	</div>
+	<div class="col s6">
+		<form id="user_pass" action="/edit_user_password" method="post">
+			<fieldset>
+				{% with errors = get_flashed_messages() %}
+				{% if errors[0] %}
+				<p class="green-text">{{errors[0]['updated']}}</p>
+				{% endif %}
+				<legend>Change Password</legend>
+				{% if errors[0] %}
+				<p class="red-text">{{errors[0]['password']}}</p>
+				{% endif %}
+				<label>Password</label>
+				<input type="password" name="password" />
+				{% if errors[0] %}
+				<p class="red-text">{{errors[0]['confirmpass']}}</p>
+				{% endif %}
+				<label>Confirm Password</label>
+				<input type="password" name="confirmpass"/>				
+				<input type="hidden" name='id' value="{{user['user_id']}}" />
+				<button class="btn right blue-grey">Update Password</button>
+				{% endwith %}
+			</fieldset>
+		</form>
+	</div>
+	<br>
+	<div class="col s12 top-m20">
+		<form id="user_desc" action="/edit_description" method="post">
+			<fieldset>
+				<legend>Edit Description</legend>
+				<textarea name="description">{% if user['description'] != None %}{{user['description']}}{% endif %}</textarea>
+				<input type="hidden" name='id' value="{{user['user_id']}}" />
+				<button class="btn right blue-grey">Save</button>
+			</fieldset>
+		</form>
+	</div>
+</div>

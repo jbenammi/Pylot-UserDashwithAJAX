@@ -1,0 +1,37 @@
+<div  class="row">
+	<h3 class="col s6 offset-s3">Add a new user</h3>
+	{% with errors = get_flashed_messages() %}
+	{% if errors[0] %}
+	<p class="red-text">{{errors[0]['user_registered']}}</p>
+	{% endif %}	
+	<form id="register" class="col s6 offset-s3" action="/reg_new_user" method="post">
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['fname']}}</p>
+		{% endif %}
+		<label>First Name:</label>
+		<input type="text" name="fname" />
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['lname']}}</p>
+		{% endif %}
+		<label>Last Name:</label>
+		<input type="text" name="lname" />
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['email']}}</p>
+		{% endif %}		
+		<label>E-Mail:</label>
+		<input type="text" name="email" />
+		<p class="label">Password must be at least 8 characters and have one uppercase letter and one number</p>
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['password']}}</p>
+		{% endif %}				
+		<label>Password:</label>
+		<input type="password" name="password" />
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['confirmpass']}}</p>
+		{% endif %}		
+		<label>Confirm Password:</label>
+		<input type="password" name="confirmpass" />	
+		<button class="btn blue-grey waves-effect waves-light" action="submit">Create</button>
+	</form>
+	{% endwith %}
+</div>

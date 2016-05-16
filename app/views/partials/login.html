@@ -1,0 +1,31 @@
+<div id="login" class="row">
+	{% with errors = get_flashed_messages()%}
+	{% if errors[0] %}
+	<p class="red-text">{{errors[0]['passmatch']}}</p>
+	{% endif %}
+	{% if errors[0] %}
+	<p class="red-text">{{errors[0]['notreg']}}</p>
+	{% endif %}
+	{% if 'registered' in session %}
+	<p>{{session['registered']}}</p>
+	{% endif %}
+	<form class="col s6 offset-s3" action="/login" method="post">
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['email2']}}</p>
+		{% endif %}
+		<label>E-Mail:</label>
+		<input type="text" name="email" />
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['password2']}}</p>
+		{% endif %}
+		<label>Password:</label>
+		<input type="password" name="password" />	
+		<button class="btn blue waves-effect waves-light" action="submit">Login</button>
+	</form>
+	{% endwith %}
+	<div class="row">
+		<div class="col s6 offset-s3 top-m10">
+			<p class="link blue-text register">Don't have an account? Register</a></p>
+		</div>
+	</div>
+</div>

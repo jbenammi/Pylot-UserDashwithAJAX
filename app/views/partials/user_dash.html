@@ -1,0 +1,31 @@
+<div class="row">
+	<h3>All Users</h3>
+</div>
+<div class="row">
+	<table class="striped">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Created On</th>
+				<th>Access Rights</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in users %}
+			<tr>
+				<td>{{user['user_id']}}</td>
+				<td><a href="/messages/{{user['user_id']}}">{{user['first_name']}} {{user['last_name']}}</a></td>
+				<td>{{user['email']}}</td>
+				<td>{{user['created_on'].strftime('%B %d, %Y at %I:%M %p')}}</td>
+				<td>{% if user['access'] == 1 %}
+					admin
+					{% else %}
+					user
+					{% endif %}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>

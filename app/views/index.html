@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="Jonathan Ben-Ammi">
+	<title></title>
+	<meta name="description" content="">
+	<link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/materialize_icons.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<script src="/static/js/jquery-2.2.3.js"></script>
+	<script src="/static/js/jquery-ui.js"></script>
+	<script src="/static/js/materialize.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			{% if 'logged_info' in session %}
+				$.ajax({
+					url:'/view_dash',
+					method: 'GET',
+					success: function(data){
+						$('#Main').html(data);
+						$.ajax({
+							url:'/loggedin_nav',
+							method: 'GET',
+							success: function(data){
+								$('#navlinks').html(data);
+							}
+						})
+					}
+				})
+			
+			{% else %}
+				$.ajax({
+					url:'/welcome',
+					method: 'GET',
+					success: function(data){
+						$('#Main').html(data);
+						$.ajax({
+							url:'/login_nav',
+							method: 'GET',
+							success: function(data){
+								$('#navlinks').html(data);
+							}
+						})
+					}
+				})
+			{% endif %}
+
+			$(document).on("submit", '#register', function(e){
+				e.preventDefault();
+				$.ajax({
+					url: $(this).attr('action'),
+					method: 'POST',
+					data: {
+						'fname': $('input[name=fname]').val(),
+						'lname': $('input[name=lname]').val(),
+						'email': $('input[name=email]').val(),
+						'password': $('input[name=password]').val(),
+						'confirmpass': $('input[name=confirmpass]').val(),
+						},
+					success: function(data){
+						$('#Main').html(data);
+					}
+				})
+			})
+
+			$(document).on("submit", '#message', function(e){
+				e.preventDefault();
+				$.ajax({
+					url: $(this).attr('action'),
+					method: 'POST',
+					data: {
+						'message': $('textarea[name=message]').val(),
+						'wall_id': $('input[name=wall_id]').val(),
+						'm_author_id': $('input[name=m_author_id]').val()
+						},
+					success: function(data){
+						$('#Main').html(data);
+					}
+				})
+			})
+
+			$(document).on("submit", '.comment', function(e){
+				e.preventDefault();
+				$.ajax({
+					url: $(this).attr('action'),
+					method: 'POST',
+					data: {
+						'comment': $('textarea[name=comment]').val(),
+						'wall_id': $('input[name=wall_id]').val(),
+						'c_author_id': $('input[name=c_author_id]').val()
+						},
+					success: function(data){
+						$('#Main').html(data);
+					}
+				})
+			})
+
+			$(document).on("submit", '#login', function(e){
+				e.preventDefault();
+				$.ajax({
+					url:'/login',
+					method: 'POST',
+					data: {
+						'email': $('input[name=email]').val(),
+						'password': $('input[name=password]').val(),
+						},
+					success: function(data){
+						$('#Main').html(data);
+						$.ajax({
+							url:'/loggedin_nav',
+							method: 'GET',
+							success: function(data){
+								$('#navlinks').html(data);
+							}
+						})							
+					}
+				})
+			})
+
+			$(document).on("submit", '#user_info', function(e){
+				e.preventDefault();
+				$.ajax({
+					url: $(this).attr('action'),
+					method: 'POST',
+					data: {
+						'fname': $('input[name=fname]').val(),
+						'lname': $('input[name=lname]').val(),
+						'email': $('input[name=email]').val(),
+						'id': $('input[name=id]').val(),
+						'access': $('select[name=access]').val()
+						},
+					success: function(data){
+						$('#Main').html(data);
+					}
+				})
+			})
+
+			$(document).on("submit", '#user_pass', function(e){
+				e.preventDefault();
+				$.ajax({
+					url: $(this).attr('action'),
+					method: 'POST',
+					data: {
+						'password': $('input[name=password]').val(),
+						'confirmpass': $('input[name=confirmpass]').val(),
+						'id': $('input[name=id]').val()
+						},
+					success: function(data){
+						$('#Main').html(data);
+					}
+				})
+			})
+
+			$(document).on("submit", '#user_desc', function(e){
+				e.preventDefault();
+				$.ajax({
+					url: $(this).attr('action'),
+					method: 'POST',
+					data: {
+						'description': $('textarea[name=description]').val(),
+						'id': $('input[name=id]').val()
+						},
+					success: function(data){
+						$('#Main').html(data);
+					}
+				})
+			})
+
+			$(document).on("click", '#Main a', function(e){
+				e.preventDefault();
+				$.ajax({
+					url: $(this).attr('href'),
+					method: 'GET',
+					success: function(data){
+						$('#Main').html(data)
+					}
+				})
+			})
+
+			$(document).on("click", '#navlinks a', function(e){
+				e.preventDefault();
+				$.ajax({
+					url: $(this).attr('href'),
+					method: 'GET',
+					success: function(data){
+						$('#Main').html(data)
+					}
+				})
+			})
+			
+			$(document).on("click", '#welcome .register, #login .register', function(){
+				$.ajax({
+					url:'/v_register',
+					method: 'GET',
+					success: function(data){
+						$('#Main').html(data);
+					}
+				})
+			})
+			$(document).on("click", '#register .login, #navlinks .login', function(){
+				$.ajax({
+					url:'/v_login',
+					method: 'GET',
+					success: function(data){
+						$('#Main').html(data);
+					}
+				})
+			})
+		})
+	</script>
+</head>
+<body>
+	<nav>
+		<div class="nav-wrapper blue-grey">
+			<div class="nav-wrapper container">
+				<p id="logo-container" class="brand-logo left"><a href="/">CodingDojo</a></p>
+				<div id="navlinks">
+					
+				</div>
+			</div>
+		</div>
+	</nav>
+	<br>
+	<div id="Main" class="container"></div>
+</body>
+</html>

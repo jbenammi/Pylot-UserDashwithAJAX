@@ -1,0 +1,39 @@
+<div id="register" class="row">
+	{% with errors = get_flashed_messages() %}
+	{% if errors[0] %}
+	<p class="red-text">{{errors[0]['user_registered']}}</p>
+	{% endif %}	
+	<form class="col s6 offset-s3" action="/register" method="post">
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['fname']}}</p>
+		{% endif %}
+		<label>First Name:</label>
+		<input type="text" name="fname" />
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['lname']}}</p>
+		{% endif %}
+		<label>Last Name:</label>
+		<input type="text" name="lname" />
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['email']}}</p>
+		{% endif %}		
+		<label>E-Mail:</label>
+		<input type="text" name="email" />
+		<p class="label">Password must be at least 8 characters and have one uppercase letter and one number</p>
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['password']}}</p>
+		{% endif %}				
+		<label>Password:</label>
+		<input type="password" name="password" />
+		{% if errors[0] %}
+		<p class="red-text">{{errors[0]['confirmpass']}}</p>
+		{% endif %}		
+		<label>Confirm Password:</label>
+		<input type="password" name="confirmpass" />	
+		<button class="btn blue waves-effect waves-light" action="submit">Register</button>
+	</form>
+	<div class="col s6 offset-s3 top-m10">
+		<p class="link blue-text login">Already have an account? Login</p>
+	</div>
+	{% endwith %}
+</div>
