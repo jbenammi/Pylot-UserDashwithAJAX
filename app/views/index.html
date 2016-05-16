@@ -14,38 +14,22 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 
-			{% if 'logged_info' in session %}
-				$.ajax({
-					url:'/view_dash',
-					method: 'GET',
-					success: function(data){
-						$('#Main').html(data);
-						$.ajax({
-							url:'/loggedin_nav',
-							method: 'GET',
-							success: function(data){
-								$('#navlinks').html(data);
-							}
-						})
-					}
-				})
-			
-			{% else %}
-				$.ajax({
-					url:'/welcome',
-					method: 'GET',
-					success: function(data){
-						$('#Main').html(data);
-						$.ajax({
-							url:'/login_nav',
-							method: 'GET',
-							success: function(data){
-								$('#navlinks').html(data);
-							}
-						})
-					}
-				})
-			{% endif %}
+			$.ajax({
+				url:'/welcome',
+				method: 'GET',
+				cache: false,
+				success: function(data){
+					$('#Main').html(data);
+					$.ajax({
+						url:'/login_nav',
+						method: 'GET',
+						cache: false,		
+						success: function(data){
+							$('#navlinks').html(data);
+						}
+					})
+				}
+			})
 
 			$(document).on("submit", '#register', function(e){
 				e.preventDefault();
@@ -59,6 +43,7 @@
 						'password': $('input[name=password]').val(),
 						'confirmpass': $('input[name=confirmpass]').val(),
 						},
+					cache: false,
 					success: function(data){
 						$('#Main').html(data);
 					}
@@ -75,6 +60,7 @@
 						'wall_id': $('input[name=wall_id]').val(),
 						'm_author_id': $('input[name=m_author_id]').val()
 						},
+					cache: false,
 					success: function(data){
 						$('#Main').html(data);
 					}
@@ -91,6 +77,7 @@
 						'wall_id': $('input[name=wall_id]').val(),
 						'c_author_id': $('input[name=c_author_id]').val()
 						},
+					cache: false,
 					success: function(data){
 						$('#Main').html(data);
 					}
@@ -99,13 +86,15 @@
 
 			$(document).on("submit", '#login', function(e){
 				e.preventDefault();
+				console.log("fireing Login")				
 				$.ajax({
-					url:'/login',
+					url: $(this).attr('action'),
 					method: 'POST',
 					data: {
 						'email': $('input[name=email]').val(),
-						'password': $('input[name=password]').val(),
+						'password': $('input[name=password]').val()
 						},
+					cache: false,
 					success: function(data){
 						$('#Main').html(data);
 						$.ajax({
@@ -131,6 +120,7 @@
 						'id': $('input[name=id]').val(),
 						'access': $('select[name=access]').val()
 						},
+					cache: false,
 					success: function(data){
 						$('#Main').html(data);
 					}
@@ -147,6 +137,7 @@
 						'confirmpass': $('input[name=confirmpass]').val(),
 						'id': $('input[name=id]').val()
 						},
+					cache: false,
 					success: function(data){
 						$('#Main').html(data);
 					}
@@ -162,6 +153,7 @@
 						'description': $('textarea[name=description]').val(),
 						'id': $('input[name=id]').val()
 						},
+					cache: false,
 					success: function(data){
 						$('#Main').html(data);
 					}
@@ -173,6 +165,7 @@
 				$.ajax({
 					url: $(this).attr('href'),
 					method: 'GET',
+					cache: false,
 					success: function(data){
 						$('#Main').html(data)
 					}
@@ -181,11 +174,21 @@
 
 			$(document).on("click", '#navlinks a', function(e){
 				e.preventDefault();
+				console.log("fireing Navlinks A")
 				$.ajax({
 					url: $(this).attr('href'),
 					method: 'GET',
+					cache: false,
 					success: function(data){
 						$('#Main').html(data)
+						$.ajax({
+							url:'/login_nav',
+							method: 'GET',
+							cache: false,		
+							success: function(data){
+								$('#navlinks').html(data);
+							}
+						})
 					}
 				})
 			})
@@ -194,15 +197,18 @@
 				$.ajax({
 					url:'/v_register',
 					method: 'GET',
+					cache: false,
 					success: function(data){
 						$('#Main').html(data);
 					}
 				})
 			})
 			$(document).on("click", '#register .login, #navlinks .login', function(){
+				console.log("fireing Navlinks A")
 				$.ajax({
 					url:'/v_login',
 					method: 'GET',
+					cache: false,
 					success: function(data){
 						$('#Main').html(data);
 					}

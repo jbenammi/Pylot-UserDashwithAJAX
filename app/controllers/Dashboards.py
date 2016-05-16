@@ -11,7 +11,16 @@ class Dashboards(Controller):
          return self.load_view('index.html')
 
     def welcome(self):
-        return self.load_view('/partials/welcome.html')
+        if 'logged_info' not in session:
+            return self.load_view('/partials/welcome.html')
+        else:
+            return redirect('/view_dash')
+
+    def login_nav(self):
+        if 'logged_info' not in session:
+            return self.load_view('/partials/navlinks_login.html')
+        else:
+            return redirect('/loggedin_nav') 
 
     def view_register(self, errors=None):
         if errors != None:
@@ -32,8 +41,6 @@ class Dashboards(Controller):
         elif session['logged_info']['access'] == 0:
             return self.load_view('/partials/user_dash.html', users = user_info)
 
-    def login_nav(self):
-        return self.load_view('/partials/navlinks_login.html')
 
     def loggedin_nav(self):
         if session['logged_info']['access'] == 1:
@@ -135,5 +142,7 @@ class Dashboards(Controller):
             return self.view_login(log_result)
 
     def logout(self):
+        print session
         session.clear()
-        return redirect('/')
+        print session
+        return redirect('/welcome')

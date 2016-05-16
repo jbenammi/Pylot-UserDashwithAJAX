@@ -131,10 +131,17 @@ class Dashboard(Model):
                     }
             self.db.query_db(query, data)
             return {'id': user_info['id']}
+    
+
     def remove_user(self, id):
-        query = 'DELETE FROM users WHERE id = :id'
+        query1 = 'DELETE FROM comments WHERE c_author_id = :id'
+        query2 = 'DELETE FROM messages WHERE m_author_id = :id'
+        query3 = 'DELETE FROM users WHERE id = :id'
         data = {'id': id}
-        return self.db.query_db(query, data)
+        self.db.query_db(query1, data)
+        self.db.query_db(query2, data)
+        self.db.query_db(query3, data)
+        return
 
     def get_messages(self, id):
         query = 'SELECT messages.id as m_id, message, messages.created_on as m_created_on, wall_id, users.first_name, users.last_name FROM dashboard.messages JOIN users ON m_author_id = users.id WHERE wall_id = :id ORDER BY m_created_on DESC'
